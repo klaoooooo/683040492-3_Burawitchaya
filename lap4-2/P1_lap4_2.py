@@ -27,6 +27,9 @@ class BankAccount:
             self.account_number = f"{BankAccount.branch_number}-2-{BankAccount.last_loan_number}"
 
     # Instance methods
+    def change_branch_name(cls):
+        cls.branch_name = input("New branch name: ")
+        
     def print_customer(self):
     
         print("----- Customer Record -----")
