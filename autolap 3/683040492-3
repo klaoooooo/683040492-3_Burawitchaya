@@ -1,0 +1,40 @@
+class Student:
+  # 1) Class attr
+  univ_name = "KKU"
+  faculty_name = "EN"
+
+  # 2) instance attr via a constructor
+  def __init__(self, name, id, gpa=0.0, scores=None):
+    self.name = name
+    self.id = id
+    self._gpa = gpa
+    if scores is None or not isinstance(scores, list): # input validation
+      self.__scores = []
+    else:
+      self.__scores = scores
+
+
+  # 3) methods
+  def display_info(self):
+    print(f"Name: {self.name}\t\tID: {self.id}")
+    print(f"{self.faculty_name}, {self.univ_name}")
+    print(f"GPA: {self._gpa}")
+    print(f"Scores: ", end="")
+    for i in self.__scores:
+      print(i, end=" + ")
+    print()
+
+  def get_gpa(self):
+    return self._gpa
+
+  def get_scores(self):
+    return self.__scores
+
+
+Shone = Student("Shone", "653040112-2")
+Shone.display_info()
+
+Ruben = Student("Ruben", "653040113-3", 3.76, [11,22,33,44])
+Ruben.display_info()
+print(f"Ruben's gpa: {Ruben.get_gpa()}")
+print(f"Ruben's scores: {Ruben.get_scores()}")
