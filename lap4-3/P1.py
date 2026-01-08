@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class LibraryItem:
     def __init__(self, title, item_id):
         self.title = title
@@ -20,6 +22,9 @@ class LibraryItem:
             self.__checked_out = False
             return True       
         return False  
+    
+    def display_info(self):
+        return f"Title: {self.title} \nID: {self._id} \nCheckout status: {self.get_status()}"
 
 # implement 3 classes here
 class Book(LibraryItem):
@@ -49,11 +54,11 @@ class Magazine(LibraryItem):
     def __init__(self, title, item_id, issue_number):
         super().__init__(title, item_id)
         self.issue_number = issue_number
-        self.month = 1
-        self.year = 2026
+        self.month = datetime.now().month
+        self.year = datetime.now().year
     
     def display_issue(self):
-        return f"Title: {self.title} \nIssue_number: {self.issue_number} \nMonth: {self.month} \nYear: {self.year} \ncheckout_status: {self.get_status()}"
+        return f"Title: {self.title} \nItem_ID: {self._id} \nIssue_number: {self.issue_number} \nMonth: {self.month} \nYear: {self.year} \ncheckout_status: {self.get_status()}"
 
 
 # Test your code:
