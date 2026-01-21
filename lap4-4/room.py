@@ -45,6 +45,24 @@ class Kitchen(Room):
         return 40 # 40 - 80
     
     def calculate_counter_space(self):
+        """
+        Calculates the area of a cunter area and wall area
+
+        Args:
+            length (float): The length of the room
+            width (float): The width of the room
+        
+        Returns:
+            Float : area of island counter space
+            Float : area of wall counter space
+
+        Raises:
+            None
+
+        Examples:
+            >>> obj.calculate_counter_space()
+            (100.0, 125.0)
+        """
         area = self.calculate_area()
         if self.has_island:
             island_counter_area = area / 5
