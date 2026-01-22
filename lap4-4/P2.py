@@ -40,41 +40,12 @@ class Vehicle(ABC):
         """
         return f"Year: {self.year} \nMake: {self.make} \nModel: {self.model}"
     
-class CommercialVehicle(Vehicle):
+class CommercialVehicle:
     def __init__(self, license_number, max_load, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.license_number = license_number
         self.max_load = max_load
         self.current_load = 0
-
-    def start_engine(self):
-        """
-        start the vehicle engine
-
-        Args:
-            None
-        
-        Returns:
-            String : engine status
-        """
-        self.is_running = True
-        return "started."
-
-    def stop_engine(self):
-        """
-        stop the vehicle engine
-
-        Args:
-            None
-        
-        Returns:
-            String : engine status
-
-        Raises:
-            None
-        """
-        self.is_running = False
-        return "stopped."
 
     def load_cargo(self, weight):
         """
@@ -121,10 +92,31 @@ class Car(Vehicle):
         self.num_doors = num_doors
 
     def start_engine(self):
+        """
+        start the vehicle engine
+
+        Args:
+            None
+        
+        Returns:
+            String : engine status
+        """
         self.is_running = True
         return "started."
 
     def stop_engine(self):
+        """
+        stop the vehicle engine
+
+        Args:
+            None
+        
+        Returns:
+            String : engine status
+
+        Raises:
+            None
+        """
         self.is_running = False
         return "stopped."
     
