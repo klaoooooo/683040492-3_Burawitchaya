@@ -25,6 +25,19 @@ class Vehicle(ABC):
         pass
 
     def get_info(self):
+        """
+        get vehicle information
+
+        Args:
+            None
+
+        Returns:
+            String : vehicle information
+        
+        Raises:            
+            None
+
+        """
         return f"Year: {self.year} \nMake: {self.make} \nModel: {self.model}"
     
 class CommercialVehicle(Vehicle):
@@ -35,20 +48,67 @@ class CommercialVehicle(Vehicle):
         self.current_load = 0
 
     def start_engine(self):
+        """
+        start the vehicle engine
+
+        Args:
+            None
+        
+        Returns:
+            String : engine status
+        """
         self.is_running = True
         return "started."
 
     def stop_engine(self):
+        """
+        stop the vehicle engine
+
+        Args:
+            None
+        
+        Returns:
+            String : engine status
+
+        Raises:
+            None
+        """
         self.is_running = False
         return "stopped."
 
     def load_cargo(self, weight):
+        """
+        load cargo into the vehicle
+        
+        Args:
+            weight (float): weight of the cargo to be loaded in kg
+
+        Returns:
+            Bool : True if cargo is loaded successfully
+            Bool : False if cargo cannot be loaded
+
+        Raises:
+            None
+
+        """
         if weight > 0 and (self.current_load + weight <= self.max_load):
             self.current_load += weight
             return True
         return False
     
     def unload_cargo(self, weight):
+        """
+        unload cargo from the vehicle
+
+        Args:
+            weight (float): weight of the cargo to be unloaded in kg
+
+        Returns:
+            Float : current load after unloading
+        
+        Raises:
+            None
+        """
         if weight > 0 and (self.current_load - weight >= 0):
             self.current_load -= weight
             return self.current_load
@@ -74,6 +134,18 @@ class Trailer(CommercialVehicle):
         self.num_axles = num_axles
 
     def get_weight_per_axle(self):
+        """
+        get weight per axle
+
+        Args:
+            None
+
+        Returns:
+            Float : weight per axle in kg
+        
+        Raises:
+            None
+        """
         if self.num_axles <= 0:
             return 0
         return self.current_load / self.num_axles
@@ -84,10 +156,35 @@ class DeliveryVan(CommercialVehicle, Car):
         self.delivery_mode = False
 
     def toggle_delivery_mode(self):
+        """
+        Toggle delivery mode
+
+        Args:
+            None
+
+        Returns:
+            String : delivery mode status
+
+        Raises:
+            None
+        """
         self.delivery_mode = not self.delivery_mode
         return f"Delivery mode set to {self.delivery_mode}"
     
     def get_info(self):
+        """
+        get delivery van information
+
+        Args:
+            None
+
+        Returns:
+            String : delivery van information
+
+        Raises:            
+            None
+        
+        """
         return super().get_info() + f" \nLicense Number: {self.license_number} \nMax Load: {self.max_load} kg \nNumber of Doors: {self.num_doors} \nDelivery Mode: {self.delivery_mode}"
     
     def begin_service(self):
