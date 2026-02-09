@@ -32,6 +32,7 @@ class Bedroom(Room):
 
     def get_recommended_lighting(self):
         return 20 # 10 - 20
+        
 
 class Kitchen(Room):
     def __init__(self, length, width, has_island = True):

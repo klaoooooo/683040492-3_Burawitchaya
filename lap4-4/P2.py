@@ -41,8 +41,7 @@ class Vehicle(ABC):
         return f"Year: {self.year} \nMake: {self.make} \nModel: {self.model}"
     
 class CommercialVehicle:
-    def __init__(self, license_number, max_load, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, license_number, max_load):
         self.license_number = license_number
         self.max_load = max_load
         self.current_load = 0
