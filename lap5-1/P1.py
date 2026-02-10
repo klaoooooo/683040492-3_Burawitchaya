@@ -30,6 +30,7 @@ class MainWindow(QMainWindow):
                 padding: 10px;
                 background-color: #f9f9f9;
                 font-size: 14px;
+                color: #000000;
             }
             QLineEdit:focus {
                 border: 2px solid #3498db;
@@ -103,7 +104,7 @@ class MainWindow(QMainWindow):
         layout.addWidget(forgot_password)
         layout.addSpacing(10)
 
-        text_or = QLabel("------------------------- OR -------------------------")
+        text_or = QLabel("————————[OR]————————")
         text_or.setFont(QFont("Arial", 12))
         text_or.setAlignment(Qt.AlignCenter)
         layout.addWidget(text_or)
