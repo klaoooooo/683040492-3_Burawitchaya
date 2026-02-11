@@ -58,9 +58,9 @@ class MainWindow(QMainWindow):
         cental_widget = QWidget()
         self.setCentralWidget(cental_widget)
         layout = QVBoxLayout(cental_widget)
-        layout.setContentsMargins(40, 20, 40, 20)
-        layout.setSpacing(5)
-        layout.addStretch()
+        layout.setContentsMargins(40, 20, 40, 20) #left, top, right, bottom
+        layout.setSpacing(5) #แต่ละwidget ห่างกัน...
+        layout.addStretch()# ทำให้ชิดกัน
 
         title = QLabel("LOGIN")
         title.setFont(QFont("Arial", 16, QFont.Bold))
@@ -82,7 +82,6 @@ class MainWindow(QMainWindow):
         text_password.setFont(QFont("Arial", 12))
         text_password.setAlignment(Qt.AlignLeft)
         layout.addWidget(text_password)
-        layout.addSpacing(5)
         password = QLineEdit()
         password.setFont(QFont("Arial", 12))
         layout.addWidget(password)
