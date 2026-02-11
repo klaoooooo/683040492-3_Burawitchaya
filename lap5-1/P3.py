@@ -1,3 +1,9 @@
+"""
+burawitchaya rongthong
+683040492-3
+P3
+"""
+
 import sys
 from PySide6.QtWidgets import (QApplication, QMainWindow,
                                 QVBoxLayout, QWidget, QHBoxLayout,
@@ -71,12 +77,13 @@ class MainWindow(QMainWindow):
                 border: none;
             }
             QComboBox::down-arrow {
-                color: black;
                 image: none;
-                border-left: 4px solid transparent;
-                border-right: 4px solid transparent;
-                border-top: 6px solid white;
-                margin-right: 5px;
+                width: 0;
+                height: 0;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 6px solid #666;
+                margin-right: 8px;
             }
             QComboBox QAbstractItemView {
                 background-color: #4a4a4a;

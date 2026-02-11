@@ -1,3 +1,9 @@
+"""
+burawitchaya rongthong
+683040492-3
+P2
+"""
+
 import sys
 from PySide6.QtWidgets import (QApplication, QMainWindow,
                                 QVBoxLayout, QWidget, QHBoxLayout,
