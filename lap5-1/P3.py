@@ -73,18 +73,6 @@ class MainWindow(QMainWindow):
                 padding: 3px 5px;
                 border-radius: 2px;                     
             }
-            QComboBox::drop-down {
-                border: none;
-            }
-            QComboBox::down-arrow {
-                image: none;
-                width: 0;
-                height: 0;
-                border-left: 5px solid transparent;
-                border-right: 5px solid transparent;
-                border-top: 6px solid #666;
-                margin-right: 8px;
-            }
             QComboBox QAbstractItemView {
                 background-color: #4a4a4a;
                 color: white;
