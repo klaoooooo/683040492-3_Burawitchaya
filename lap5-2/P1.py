@@ -50,6 +50,9 @@ class MainWindow(QMainWindow):
                     border: 1px solid #f0f0f0;
                     border-radius: 5px;
             }
+            QComboBox QAbstractItemView {
+                background-color: #f0f0f0;
+            }
         """)
 
         central_widget = QWidget()
@@ -302,6 +305,7 @@ class OutputSection(QWidget):
         link_layout.addStretch()
         
         self.layout_output.addLayout(link_layout)  
+        self.layout_output.addStretch()
 
     def update_results(self, bmi, age_group):
         self.clear_result()
