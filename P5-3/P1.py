@@ -77,7 +77,6 @@ class MainMindow(QMainWindow):
             }
         """)
         
-
 class scores_and_grades(QWidget):
         def __init__(self):
             super().__init__()
@@ -96,6 +95,7 @@ class scores_and_grades(QWidget):
             self.student_id_combo.activated.connect(self.auto_name)
             layout_1.addWidget(self.student_id_combo)
 
+        #layout_1
             #student name
             self.student_name = QLabel("Student Name: ")
             layout_1.addWidget(self.student_name)
@@ -144,8 +144,8 @@ class scores_and_grades(QWidget):
         #add layout1
             layout.addLayout(layout_1)
 
-            #reset layout
-                #reset
+        #reset layout
+            #reset
             reset_layout = QHBoxLayout()
             self.reset_button = QPushButton("Reset Input")
             self.reset_button.setObjectName("reset")
@@ -154,8 +154,8 @@ class scores_and_grades(QWidget):
             reset_layout.addWidget(self.reset_button)
             layout.addLayout(reset_layout)
 
-            #clear latout
-                #clear
+        #clear latout
+            #clear
             clear_layout = QHBoxLayout()
             self.clear_button = QPushButton("Clear All")
             self.clear_button.setObjectName("clear")
@@ -187,8 +187,11 @@ class scores_and_grades(QWidget):
             sci = self.science_spin.value()
             eng = self.english_spin.value()
 
+            if not student_id:
+                QMessageBox.warning(self, "Error", "Please Select ID")
+
             if not name:
-                print("Please type name!!!")
+                QMessageBox.warning(self, "Error", "Please Type Name")
                 return
             
             row_position = self.table.rowCount()
@@ -245,16 +248,19 @@ class scores_and_grades(QWidget):
                 eng_item.setBackground(Qt.green)
             self.table.setItem(row_position, 4, eng_item)
 
+            #total
             total = math + sci + eng
             total_item = QTableWidgetItem(str(total))
             total_item.setTextAlignment(Qt.AlignCenter)
             self.table.setItem(row_position, 5, total_item)
 
+            #avg
             avg = total/3
             avg_item = QTableWidgetItem(str(f"{avg:.2f}"))
             avg_item.setTextAlignment(Qt.AlignCenter)
             self.table.setItem(row_position, 6, avg_item)
 
+            #grade
             if avg < 50:
                 grade = "F"
                 grade_item = QTableWidgetItem(grade)
