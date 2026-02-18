@@ -197,6 +197,7 @@ class CalculatorLayout(QWidget):
                 result = a // b
             except ZeroDivisionError as e:
                 result = f"{e}" """
+        
         if op == "/":
             try:
                 result = a // b
@@ -207,6 +208,8 @@ class CalculatorLayout(QWidget):
                 result = a / b
             except ZeroDivisionError as e:
                 result = f"{e}"
+        elif op == "x":
+            result = a * b
         else:
             result = eval(expression)
         self.display.setText(str(result))
