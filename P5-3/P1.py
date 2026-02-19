@@ -16,11 +16,11 @@ from PySide6.QtWidgets import (QApplication, QMainWindow,
 from PySide6.QtCore import Qt, QSize, QDate
 from PySide6.QtGui import QPixmap, QFont 
 
-student_dict = {
-                    "683040492-3" : "Burawitchaya Rongthong",
-                    "231312412-3" : "klaooooooooo Rongthong",
-                    "312321312-5" : "naananananan erfesafsdf",
-}
+student_dict = {}
+student = open("P5-3/s.txt", "r")
+for i in student:
+    stu_id,name = i.split(",")
+    student_dict[stu_id.strip()] = name.strip()
 
 class MainMindow(QMainWindow):
 
@@ -91,7 +91,7 @@ class scores_and_grades(QWidget):
 
             self.student_id_combo = QComboBox()
             self.student_id_combo.setPlaceholderText("Select Student ID")
-            self.student_id_combo.addItems(["683040492-3","231312412-3","312321312-5"])
+            self.student_id_combo.addItems(student_dict.keys())
             self.student_id_combo.activated.connect(self.auto_name)
             layout_1.addWidget(self.student_id_combo)
 
