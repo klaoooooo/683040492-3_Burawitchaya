@@ -285,6 +285,9 @@ class scores_and_grades(QWidget):
             grade_item.setTextAlignment(Qt.AlignCenter)
             self.table.setItem(row_position, 7, grade_item)
 
+            #sort
+            self.table.sortItems(0, Qt.AscendingOrder)
+
             self.student_id_combo.setCurrentIndex(-1)
             self.student_name_edit.clear()
             self.math_spin.setValue(0)
