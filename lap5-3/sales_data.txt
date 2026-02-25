@@ -1,0 +1,3 @@
+January, 1500, Electronics
+Feb, 800, Clothing
+Mar, 2000, Food

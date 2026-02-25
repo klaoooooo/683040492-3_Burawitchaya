@@ -17,7 +17,7 @@ from PySide6.QtCore import Qt, QSize, QDate
 from PySide6.QtGui import QPixmap, QFont 
 
 student_dict = {}
-student = open("P5-3/s.txt", "r")
+student = open("lap5-3/s.txt", "r")
 for i in student:
     stu_id,name = i.split(",")
     student_dict[stu_id.strip()] = name.strip()
@@ -189,7 +189,8 @@ class scores_and_grades(QWidget):
 
             if not student_id:
                 QMessageBox.warning(self, "Error", "Please Select ID")
-
+                return
+            
             if not name:
                 QMessageBox.warning(self, "Error", "Please Type Name")
                 return
