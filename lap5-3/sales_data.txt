@@ -1,3 +1,5 @@
-January, 1500, Electronics
-Feb, 800, Clothing
-Mar, 2000, Food
+Jan, Electronics, 150000
+Jan, Clothing, 80000
+Jan, Food, 60000
+Jan, Others, 30000
+Feb, Electronics, 200000
