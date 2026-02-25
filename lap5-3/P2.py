@@ -99,9 +99,14 @@ class MonthlySalesChart(QWidget):
         self.graph.setTitle("Monthly Sales")
         self.graph.setLabel("left", "Sales Amount")
         self.graph.setLabel("bottom", "Month")
+        self.graph.getViewBox().setLimits(yMin=0)
+        self.graph.setXRange(-0.5, 11.5)  # ← แสดงทุกเดือน Jan–Dec
+        self.graph.setYRange(0, 250000) # ตั้งค่าเริ่มต้นให้ Y แสดง 0–250000 เพื่อให้เห็นสเกลชัดเจน
+        self.graph.getViewBox().setLimits(xMin=-0.5, xMax=11.5) # ← ล็อก X ไม่ให้เลื่อน
         self.graph.showGrid(x=True, y=True, alpha=0.3) # Add grid with some transparency
         self.graph.getViewBox().setLimits(yMin=0)  # Prevent zooming below 0 on y-axis
-        self.graph.setYRange(0, 10) # Set initial y-axis range to 0-10 (in thousands) for better visualization
+        
+        self.graph.setMouseEnabled(x=False, y=True) # ← zoom ได้แค่แกน Y
 
         # Set x-axis ticks to month names
         ax = self.graph.getAxis('bottom')
@@ -158,8 +163,17 @@ class MonthlySalesChart(QWidget):
         month = self.month_input.currentText()
         product = self.product_input.currentText()
         sales = self.sales_input.value()
+
+        if not month or not product:
+            QMessageBox.warning(self, "Input Error", "Please select both month and product category.")
+            return
+
         self.sales_data[(month, product)] = sales  # update if exists
         self.update_chart()
+
+        self.product_input.setCurrentIndex(-1)
+        self.month_input.setCurrentIndex(-1)
+        self.sales_input.setValue(0)
 
     def clear(self):
         self.sales_data.clear()
@@ -181,7 +195,7 @@ class MonthlySalesChart(QWidget):
                 key = (month, product)
                 if key in self.sales_data:
                     x_vals.append(mi - group_width / 2 + pi * bar_width + bar_width / 2)
-                    y_vals.append(self.sales_data[key] / 1000.0)
+                    y_vals.append(self.sales_data[key])
 
             if x_vals:
                 color = COLORS[product]
