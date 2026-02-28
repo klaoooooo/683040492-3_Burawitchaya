@@ -1,4 +1,5 @@
 import sys
+import pyperclip
 from PySide6.QtWidgets import (QApplication, QMainWindow,
                                 QVBoxLayout, QWidget, QHBoxLayout,
                                 QGridLayout, QFormLayout, QLineEdit,
@@ -7,7 +8,8 @@ from PySide6.QtWidgets import (QApplication, QMainWindow,
                                 QCheckBox, QTextEdit, QGroupBox,
                                 QMessageBox, QTableWidget, QTableWidgetItem, 
                                 QSpinBox, QMenu, QMenuBar, QStatusBar, 
-                                QToolBar, QColorDialog, QFrame)
+                                QToolBar, QColorDialog, QFrame,
+                                QFileDialog)
 
 from PySide6.QtCore import Qt, QSize, QDate
 from PySide6.QtGui import QPixmap, QFont, QIcon, QAction
@@ -38,9 +40,15 @@ class MainWindow(QMainWindow):
                 min-height: 25px;
                 min-width: 130px;
             }           
+            QComboBox {
+                min-height: 25px;
+                min-width: 130px;
+            }
         """)
-        self.cantal_widget = PersonalInfoCard()
+        self.cantal_widget = PersonalInfoCard(self)
         self.setCentralWidget(self.cantal_widget)
+
+        self.last_saved_file = None
 
         # ===== Menu Bar =====
         self.menu = self.menuBar()
@@ -66,9 +74,11 @@ class MainWindow(QMainWindow):
         edit_menu = self.menu.addMenu("&Edit")
 
         copy_action = QAction("&Copy Card", self)
+        copy_action.triggered.connect(self.copy_card)
         edit_menu.addAction(copy_action)
 
         Clear_action = QAction("&Clear Form", self)
+        Clear_action.triggered.connect(self.clear_form)
         edit_menu.addAction(Clear_action)
 
         # ===== Tool Bar =====
@@ -76,13 +86,21 @@ class MainWindow(QMainWindow):
         self.addToolBar(toolbar)
 
         action1 = QAction(QIcon("lap5-4/a1.png"), "Action 1", self)
+        action1.triggered.connect(self.generate_card)
         toolbar.addAction(action1)
 
         action2 = QAction(QIcon("lap5-4/a2.png"), "Action 2", self)
+        action2.triggered.connect(self.save_card)
         toolbar.addAction(action2)
 
         action3 = QAction(QIcon("lap5-4/a3.png"), "Action 3", self)
+        action3.triggered.connect(self.clear_all)
         toolbar.addAction(action3)
+
+        # ====== Status Bar =====
+        self.status_bar = QStatusBar()
+        self.setStatusBar(self.status_bar)
+        self.status_bar.showMessage("Fill in your details and click generate")
 
     def generate_card(self):
         self.cantal_widget.update_output()
@@ -91,21 +109,40 @@ class MainWindow(QMainWindow):
         self.cantal_widget.add_data()
     
     def clear_display(self):
-        self.cantal_widget.fullname_input.clear()
-        self.cantal_widget.age_input.setValue(0)
-        self.cantal_widget.position_input.clear()
-        self.cantal_widget.email_input.clear()
-        self.cantal_widget.update_output()
+        self.cantal_widget.output_section.fullname_output.setText("Your name here")
+        self.cantal_widget.output_section.age_output.setText("(Age)")
+        self.cantal_widget.output_section.position_output.setText("Your position here")
+        self.cantal_widget.output_section.email_output.setText("✉️ your_username@domain.com")
+        self.status_bar.showMessage("Display cleared!", 5000)
+
 
     def copy_card(self):
-        pass
-    
+        name = self.cantal_widget.fullname_input.text()
+        age = self.cantal_widget.age_input.value()
+        position = self.cantal_widget.position.currentText()
+        email = self.cantal_widget.email_input.text()
+
+        card_text = f"Name: {name}\nAge: {age}\nPosition: {position}\nEmail: {email}"
+        pyperclip.copy(card_text)
+        self.status_bar.showMessage("Card copied to clipboard!", 5000)
+
     def clear_form(self):
-        pass
+        self.cantal_widget.fullname_input.clear()
+        self.cantal_widget.age_input.setValue(0)
+        self.cantal_widget.position.setCurrentIndex(-1)
+        self.cantal_widget.email_input.clear()
+        self.status_bar.showMessage("Form cleared!", 5000)
+    
+    def clear_all(self):
+        self.clear_display()
+        self.clear_form()
+        self.status_bar.showMessage("Form and display cleared!", 5000)
 
 class PersonalInfoCard(QWidget):
-    def __init__(self):
+    def __init__(self, main_window):
         super().__init__()
+        self.main_window = main_window
+
         layout = QVBoxLayout()
         self.setLayout(layout)
         layout.setSpacing(15)
@@ -144,9 +181,11 @@ class PersonalInfoCard(QWidget):
         position_text = QLabel("Position:")
         layout_row4.addWidget(position_text, alignment=Qt.AlignLeft)
         #------------------------------------------------
-        self.position_input = QLineEdit()
-        self.position_input.setPlaceholderText("Your current position")
-        layout_row4.addWidget(self.position_input, alignment=Qt.AlignRight)
+        self.position = QComboBox()
+        self.position.addItems(["Teaching Staff","Supporting Staff","Student","Visitor"])
+        self.position.setPlaceholderText("Choose your position")
+        self.position.setCurrentIndex(-1)
+        layout_row4.addWidget(self.position, alignment=Qt.AlignRight)
         layout.addLayout(layout_row4)
 
         # Row 5: Favorite Color
@@ -189,29 +228,72 @@ class PersonalInfoCard(QWidget):
             self.color_preview.setStyleSheet(f"background-color: {color.name()}; border: 1px solid; border-color: black;")
             self.result_container.setStyleSheet(f"background-color: {color.name()};")
             self.pick_color_button.setStyleSheet(f"background-color: rgba({color.red()}, {color.green()}, {color.blue()}, 40); color: {color.name()}; border: 1px solid; border-color: {color.name()};")
-    
+        self.main_window.status_bar.showMessage(f"Selected color: {color.name()}", 5000)
+        
     def update_output(self):
-        self.output_section.fullname_output.setText(self.fullname_input.text())
-        self.output_section.age_output.setText(f"({str(self.age_input.value())})")
-        self.output_section.position_output.setText(self.position_input.text())
-        self.output_section.email_output.setText(f"✉️ {self.email_input.text()}")
-
-    def add_data(self):
         name = self.fullname_input.text()
         age = self.age_input.value()
-        position = self.position_input.text()
+        position = self.position.currentText()
         email = self.email_input.text()
+
+        try:
+            age = int(age)
+            if age < 1 or age > 149:  # แก้ logic ให้ถูก
+                QMessageBox.warning(self, "Input Error", "Please enter a valid age between 1 and 149.")
+                return
+        except ValueError:
+            QMessageBox.warning(self, "Input Error", "Invalid age value.")
+            return
+
+        if "@" not in email or "." not in email.split("@")[-1] :
+            QMessageBox.warning(self, "Input Error", "Please enter a valid email address.")
+            return
+
+        if not name or not position or not email:
+            QMessageBox.warning(self, "Input Error", "Please fill in all fields.")
+            return
+        
+        if not self.fullname_input.text() or not self.position.currentText() or not self.email_input.text():
+            QMessageBox.warning(self, "Input Error", "Please fill in all fields before generating the card.")
+            return
+        self.output_section.fullname_output.setText(name)
+        self.output_section.age_output.setText(f"({str(age)})")
+        self.output_section.position_output.setText(position)
+        self.output_section.email_output.setText(f"✉️ {email}")
+
+    def add_data(self):
+        name = self.output_section.fullname_output.text()
+        age = self.output_section.age_output.text().strip("()")
+        position = self.output_section.position_output.text()
+        email = self.output_section.email_output.text().replace("✉️ ", "")
+
+        try:
+            age = int(age)
+            if age < 1 or age > 149:  # แก้ logic ให้ถูก
+                QMessageBox.warning(self, "Input Error", "Please enter a valid age between 1 and 149.")
+                return
+        except ValueError:
+            QMessageBox.warning(self, "Input Error", "Invalid age value.")
+            return
+
+        if "@" not in email or "." not in email.split("@")[-1]:
+            QMessageBox.warning(self, "Input Error", "Please enter a valid email address.")
+            return
 
         if not name or not position or not email:
             QMessageBox.warning(self, "Input Error", "Please fill in all fields.")
             return
 
+
         try:
-            with open("my_card.txt", "w") as output_file:
-                output_file.write(f"{name}\n({age})\n{position}\nEmail: {email}\n")
-            QMessageBox.information(self, "Success", "Card saved successfully!")
+            file, _ = QFileDialog.getSaveFileName(self, "Save Card Data", "my_card.txt", "Text Files (*.txt);;All Files (*)")
+            if file:  
+                with open(file, "w") as output_file:
+                    output_file.write(f"{name}\n({age})\n{position}\nEmail: {email}\n")
+                self.main_window.last_saved_file = file
         except Exception as e:
             QMessageBox.critical(self, "File Error", f"Could not save file: {e}")
+
 
 class OutputSection(QWidget):
     def __init__(self):
