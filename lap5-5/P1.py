@@ -312,7 +312,7 @@ class BookingPage(QWidget):
             lbl = QLabel(text)
             lbl.setStyleSheet(label_style)
             # add label and widget to your layout
-            form_layout.addRow(text, widget)
+            form_layout.addRow(lbl, widget)
         main_layout.addWidget(form_frame)
 
         # ── Section 2: Room Selection ──
