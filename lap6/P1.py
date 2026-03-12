@@ -338,6 +338,7 @@ class MainWindow(QMainWindow):
 
     def _remove_card(self, card: TaskCard):
         card.task["done"] = True   # ← mark done ใน DB
+        self.tasks.remove(card.task)
         self.cards.remove(card)
         self.card_layout.removeWidget(card)
         card.deleteLater()
@@ -365,6 +366,7 @@ class MainWindow(QMainWindow):
             data = json.load(f)
         # populate cards from data
         for task in data:
+            self.tasks.append(task)
             self._insert_card(task)
 
         # update the task count and check whether it's card area is empty
@@ -374,12 +376,12 @@ class MainWindow(QMainWindow):
 
     # ── helpers ─────────────────────────────────
     def _refresh_count(self):
-        n    = len(self.tasks)
+        n = len(self.cards)
         done = sum(1 for t in self.tasks if t.get("done"))
         self.lbl_count.setText(f"{done}/{n} done")
 
     def _refresh_empty(self):
-        has = len(self.tasks) > 0
+        has = len(self.cards) > 0 
         self.lbl_empty.setVisible(not has)
         #self.scroll_area.setVisible(has)
 
