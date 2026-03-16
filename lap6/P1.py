@@ -338,7 +338,6 @@ class MainWindow(QMainWindow):
 
     def _remove_card(self, card: TaskCard):
         card.task["done"] = True   # ← mark done ใน DB
-        self.tasks.remove(card.task)
         self.cards.remove(card)
         self.card_layout.removeWidget(card)
         card.deleteLater()
@@ -350,7 +349,8 @@ class MainWindow(QMainWindow):
         path, _ = QFileDialog.getSaveFileName(self, "Save","","JSON Files (*.json)")
         if not path:
             return
-        data = [card.task for card in self.cards]
+        
+        data = self.tasks
 
         with open(path, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
