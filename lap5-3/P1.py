@@ -198,8 +198,8 @@ class scores_and_grades(QWidget):
             row_position = self.table.rowCount()
             self.table.insertRow(row_position)
 
-            student_id_item = QTableWidgetItem(student_id)
-            name_item = QTableWidgetItem(name)
+            student_id_item = QTableWidgetItem(student_id) 
+            name_item = QTableWidgetItem(name) 
             math_item = QTableWidgetItem(str(math))
             math_item.setTextAlignment(Qt.AlignCenter)
             sci_item = QTableWidgetItem(str(sci))

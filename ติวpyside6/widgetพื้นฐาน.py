@@ -35,7 +35,6 @@ class MainWindow(QMainWindow):
 
         row1.addWidget(QLabel("Username:"))
         row1.addWidget(self.user_input)
-
         
         row2 = QHBoxLayout()
         self.pass_input = QLineEdit()

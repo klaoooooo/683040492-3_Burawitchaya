@@ -40,7 +40,7 @@ self.stack.widget(0)   # ได้ Widget ของ index 0
 
 # แต่ละหน้าเป็น Class ของตัวเอง → โค้ดสะอาด อ่านง่าย
 class LoginPage(QWidget):
-    name = Signal(str)
+    name = Signal(str, int)
     def __init__(self):
         super().__init__()       
         self._setup_ui()
@@ -57,7 +57,7 @@ class LoginPage(QWidget):
         layout.addWidget(self.btn)
 
     def save(self):
-        self.name.emit(self.name_input.text())
+        self.name.emit(self.name_input.text(), 213)
 
 class HomePage(QWidget):
     def __init__(self):
@@ -105,8 +105,8 @@ class MainWindow(QMainWindow):
     def go_to_home(self):
         self.stack.setCurrentIndex(1)
 
-    def change_text_home(self, text:str):
-        self.home.text_name.setText(text)
+    def change_text_home(self, text:str, i:int):
+        self.home.text_name.setText(text + str(i))
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
